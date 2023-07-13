@@ -3,10 +3,11 @@ import { useDispatch } from "react-redux";
 import { commentPost } from "../actions/posts";
 
 const CommentSection = ({ post }) => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = JSON.parse(localStorage.getItem("Profile"));
   const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const [comments, setComments] = useState(post?.comments);
+
   const handleComment = async () => {
     const newComments = await dispatch(
       commentPost(`${user?.result?.name}: ${comment}`, post._id)
@@ -28,7 +29,7 @@ const CommentSection = ({ post }) => {
         </div>
       </div>
       <div className="col-6">
-        {user?.result?.name ? (
+        {user ? (
           <div>
             <p className="fw-bold fs-4">Write a Comment:</p>
             <div style={{ width: "95%" }}>

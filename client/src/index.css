@@ -21,23 +21,26 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(154, 154, 154);
 }
+.mtt {
+  margin-top: 70px;
+}
 .header--img {
-  height: 50px;
+  height: 40px;
   margin-left: 10px;
 }
 .card-body,
 .card-footer,
-.three--dots {
+.edit--btn {
   z-index: 1000;
 }
-.three--dots {
+.edit--btn {
   float: right;
   padding: 5px 5px 3px 5px;
   border-radius: 50%;
   background-color: white;
   color: black;
 }
-.three--dots:hover {
+.edit--btn:hover {
   cursor: pointer;
   color: #0097ff;
 }
@@ -45,15 +48,6 @@ body {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   max-height: 180px;
-}
-.avatar {
-  height: 40px;
-  width: 40px;
-  background-color: #0097ff;
-  border-radius: 50%;
-}
-.mycontainer {
-  margin: 0 15px;
 }
 .mymessage {
   display: -webkit-box;
@@ -90,4 +84,19 @@ body {
 .mycomments {
   max-height: 150px;
   overflow-y: scroll;
+}
+@media only screen and (max-width: 590px) {
+  .nav--bar {
+    font-size: 15px !important;
+  }
+}
+@media only screen and (max-width: 426px) {
+  .mtt {
+    margin-top: 100px;
+  }
+}
+@media only screen and (max-width: 320px) {
+  .mtt {
+    margin-top: 110px;
+  }
 }

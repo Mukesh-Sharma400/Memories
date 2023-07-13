@@ -14,26 +14,32 @@ const Paginate = ({ page }) => {
     }
   }, [dispatch, page]);
 
-  let active = Number(page) || 1;
-  let items = [];
+  const renderPaginationItems = () => {
+    const active = Number(page) || 1;
+    const items = [];
+    for (let number = 1; number <= numberOfPages; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === active}>
+          <Link
+            className="text-decoration-none bg-light rounded-circle px-2 m-0"
+            to={`/posts?page=${number}`}
+          >
+            {number}
+          </Link>
+        </Pagination.Item>
+      );
+    }
+    return items;
+  };
 
-  for (let number = 1; number <= numberOfPages; number++) {
-    items.push(
-      <Pagination.Item key={number} active={number === active}>
-        <Link
-          className="text-decoration-none bg-light rounded-circle px-2 m-0"
-          to={`/posts?page=${number}`}
-        >
-          {number}
-        </Link>
-      </Pagination.Item>
-    );
-  }
+  const active = Number(page) || 1;
+  const isFirstPage = active === 1;
+  const isLastPage = active === numberOfPages || numberOfPages === 0;
 
   return (
     <div className="mt-3">
       <Pagination>
-        <Pagination.Prev disabled={1 === active}>
+        <Pagination.Prev disabled={isFirstPage}>
           <Link
             className="text-decoration-none"
             to={`/posts?page=${active - 1}`}
@@ -41,8 +47,8 @@ const Paginate = ({ page }) => {
             &laquo;
           </Link>
         </Pagination.Prev>
-        {items}
-        <Pagination.Next disabled={numberOfPages === active}>
+        {renderPaginationItems()}
+        <Pagination.Next disabled={isLastPage}>
           <Link
             className="text-decoration-none"
             to={`/posts?page=${active + 1}`}

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { useParams, useNavigate } from "react-router-dom";
-import { getPost, getPostsBySearch } from "../actions/posts";
-import CommentSection from "./CommentSection";
+import { getPost } from "../actions/posts";
+import CommentSection from "../components/CommentSection";
 
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -13,15 +13,7 @@ const PostDetails = () => {
 
   useEffect(() => {
     dispatch(getPost(id));
-  }, [id]);
-
-  useEffect(() => {
-    if (post) {
-      dispatch(
-        getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
-      );
-    }
-  }, [post]);
+  }, [dispatch, id]);
 
   if (!post) return null;
 
@@ -29,13 +21,13 @@ const PostDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="text-center">
+      <div className="text-center mtt">
         <button className="btn btn-primary btn-lg" type="button" disabled>
           <span
             className="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
-          ></span>
+          ></span>{" "}
           Loading...
         </button>
       </div>
@@ -45,8 +37,8 @@ const PostDetails = () => {
   const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
 
   return (
-    <div className="mt-2 mb-5">
-      <div className="mycontainer col-xxl-8 px-4 py-2 bg-light rounded-5">
+    <div className="mtt container-xxl ">
+      <div className="col-xxl-8 px-4 py-2 bg-light rounded-2">
         <div className="row flex-lg-row-reverse align-items-center g-5 py-4">
           <div className="col-10 col-sm-8 col-lg-6">
             <img
@@ -80,7 +72,7 @@ const PostDetails = () => {
         </div>
       </div>
       {!!recommendedPosts.length && (
-        <div className="mycontainer">
+        <div className="container-xxl">
           <h3 className="bg-light bg-gradient rounded-pill px-5 my-3 myheading">
             You Might Also Like:
           </h3>
