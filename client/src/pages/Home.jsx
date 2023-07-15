@@ -18,7 +18,7 @@ const Home = () => {
   const navigate = useNavigate();
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
-  const [tags, setTags] = useState([]);
+  const [tags] = useState([]);
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -64,7 +64,6 @@ const Home = () => {
               <button
                 className="btn btn-warning"
                 type="button"
-                id="button-addon2"
                 onClick={searchPost}
               >
                 Search

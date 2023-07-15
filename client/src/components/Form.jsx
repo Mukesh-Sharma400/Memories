@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import { createPost, updatePost } from "../actions/posts";
-import useAutosave from "./useAutosave";
 
 const Form = ({ currentId, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem("Profile"));
@@ -16,8 +15,6 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
-
-  const [autoSavedData, setAutoSavedData] = useAutosave(postData);
 
   const post = useSelector((state) =>
     currentId
@@ -41,21 +38,19 @@ const Form = ({ currentId, setCurrentId }) => {
       dispatch(
         updatePost(
           currentId,
-          { ...autoSavedData, name: user?.result?.name },
+          { ...postData, name: user?.result?.name },
           navigate
         )
       );
     } else {
-      dispatch(
-        createPost({ ...autoSavedData, name: user?.result?.name }, navigate)
-      );
+      dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
     }
     clear();
   };
 
   useEffect(() => {
-    if (post) setAutoSavedData(post);
-  }, [setAutoSavedData, post]);
+    if (post) setPostData(post);
+  }, [setPostData, post]);
 
   if (!user?.result?.name) {
     return (
@@ -82,9 +77,9 @@ const Form = ({ currentId, setCurrentId }) => {
             className="form-control"
             id="inputTitle"
             placeholder="Enter Title Here..."
-            value={autoSavedData.title}
+            value={setPostData.title}
             onChange={(e) =>
-              setAutoSavedData({ ...autoSavedData, title: e.target.value })
+              setPostData({ ...postData, title: e.target.value })
             }
           />
         </div>
@@ -95,9 +90,9 @@ const Form = ({ currentId, setCurrentId }) => {
             className="form-control"
             id="inputMessage"
             placeholder="Enter Message Here..."
-            value={autoSavedData.message}
+            value={setPostData.message}
             onChange={(e) =>
-              setAutoSavedData({ ...autoSavedData, message: e.target.value })
+              setPostData({ ...postData, message: e.target.value })
             }
           />
         </div>
@@ -108,10 +103,10 @@ const Form = ({ currentId, setCurrentId }) => {
               className="form-control"
               id="floatingTags"
               placeholder="Tags (comma separated)"
-              value={autoSavedData.tags}
+              value={setPostData.tags}
               onChange={(e) =>
-                setAutoSavedData({
-                  ...autoSavedData,
+                setPostData({
+                  ...postData,
                   tags: e.target.value.split(","),
                 })
               }
@@ -128,7 +123,7 @@ const Form = ({ currentId, setCurrentId }) => {
               id="fileInput"
               multiple={false}
               onDone={({ base64 }) =>
-                setAutoSavedData({ ...autoSavedData, selectedFile: base64 })
+                setPostData({ ...postData, selectedFile: base64 })
               }
             />
           </div>

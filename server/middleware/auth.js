@@ -4,10 +4,12 @@ const secret = `${process.env.SECRET_KEY}`;
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const isCustomAuth = token.length < 500;
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     let decodedData;
-    if (token && isCustomAuth) {
+    if (token.length < 500) {
       decodedData = jwt.verify(token, secret);
       req.userId = decodedData?.id;
     } else {
@@ -17,6 +19,7 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

@@ -21,8 +21,11 @@ function App() {
     setUser(storedUser);
   }, []);
 
-  const authRedirect = () => {
+  const loginRedirect = () => {
     return !user ? <LogIn /> : <Navigate to="/posts" replace />;
+  };
+  const regRedirect = () => {
+    return !user ? <Register /> : <Navigate to="/posts" replace />;
   };
 
   return (
@@ -31,11 +34,12 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Navigate to="/posts" replace />} />
-            <Route path="/posts/*" element={<Home />} />
-            <Route path="/posts/:id" element={<PostDetails />} />
-            <Route path="/login" element={authRedirect()} />
-            <Route path="/register" element={<Register />} />
+            <Route exact path="/" element={<Navigate to="/posts" replace />} />
+            <Route exact path="/posts" element={<Home />} />
+            <Route exact path="/posts/search" element={<Home />} />
+            <Route exact path="/posts/:id" element={<PostDetails />} />
+            <Route exact path="/login" element={loginRedirect()} />
+            <Route exact path="/register" element={regRedirect()} />
           </Routes>
         </Router>
       </GoogleOAuthProvider>
